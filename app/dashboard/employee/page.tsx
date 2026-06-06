@@ -203,23 +203,23 @@ export default function EmployeeDashboard() {
 
       let leftY = tableY - 25;
       page.drawText('Basic Salary', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.basic}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.basic}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       leftY -= 18;
       page.drawText('HRA (40%)', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.hra}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.hra}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       leftY -= 18;
       page.drawText('DA (20%)', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.da}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.da}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       let rightY = tableY - 25;
       page.drawText('PF / flat Deductions', { x: width / 2, y: rightY, size: 10, font });
-      page.drawText(`$${record.deductions}`, { x: width - 100, y: rightY, size: 10, font });
+      page.drawText(`Rs.${record.deductions}`, { x: width - 100, y: rightY, size: 10, font });
 
       rightY -= 18;
       page.drawText('TDS / Income Tax', { x: width / 2, y: rightY, size: 10, font });
-      page.drawText(`$${record.tds}`, { x: width - 100, y: rightY, size: 10, font });
+      page.drawText(`Rs.${record.tds}`, { x: width - 100, y: rightY, size: 10, font });
 
       page.drawLine({
         start: { x: 40, y: leftY - 15 },
@@ -233,10 +233,10 @@ export default function EmployeeDashboard() {
 
       const sumY = leftY - 35;
       page.drawText('Gross Earnings:', { x: 40, y: sumY, size: 10, font: fontBold });
-      page.drawText(`$${gross}`, { x: width / 2 - 80, y: sumY, size: 10, font: fontBold });
+      page.drawText(`Rs.${gross}`, { x: width / 2 - 80, y: sumY, size: 10, font: fontBold });
 
       page.drawText('Total Deductions:', { x: width / 2, y: sumY, size: 10, font: fontBold });
-      page.drawText(`$${totalDed}`, { x: width - 100, y: sumY, size: 10, font: fontBold });
+      page.drawText(`Rs.${totalDed}`, { x: width - 100, y: sumY, size: 10, font: fontBold });
 
       const netY = sumY - 70;
       page.drawRectangle({
@@ -250,7 +250,7 @@ export default function EmployeeDashboard() {
       });
 
       page.drawText('NET TAKE-HOME SALARY', { x: 60, y: netY + 26, size: 9, font: fontBold, color: rgb(0.4, 0.4, 0.4) });
-      page.drawText(`$${record.netSalary}`, { x: 60, y: netY + 8, size: 15, font: fontBold, color: rgb(0.05, 0.35, 0.15) });
+      page.drawText(`Rs.${record.netSalary}`, { x: 60, y: netY + 8, size: 15, font: fontBold, color: rgb(0.05, 0.35, 0.15) });
 
       page.drawText('This document is a computer-generated payslip and does not require a physical signature.', {
         x: 40,
@@ -462,7 +462,7 @@ export default function EmployeeDashboard() {
                         <h4 className="font-bold text-slate-200">
                           {monthNames[pay.month - 1]} {pay.year}
                         </h4>
-                        <p className="text-[10px] text-slate-550 mt-0.5">Take-home: ${pay.netSalary}</p>
+                        <p className="text-[10px] text-slate-550 mt-0.5">Take-home: ₹{pay.netSalary}</p>
                       </div>
 
                       <button

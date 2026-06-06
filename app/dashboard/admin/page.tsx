@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Building,
   Users,
-  DollarSign,
+  IndianRupee,
   TrendingUp,
   Award,
   Sparkles,
@@ -94,12 +94,12 @@ export default function AdminDashboard() {
 
           <div className="bg-slate-900 border border-slate-800 p-6 rounded-2xl shadow-xl flex items-center gap-5">
             <div className="p-3 bg-emerald-500/10 rounded-xl border border-emerald-500/15 text-emerald-400">
-              <DollarSign className="h-6 w-6" />
+              <IndianRupee className="h-6 w-6" />
             </div>
             <div>
               <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Monthly Wage Spend</p>
               <h3 className="text-2xl font-bold text-slate-100 mt-1">
-                {loading ? '--' : `$${kpis.totalPayroll.toLocaleString()}`}
+                {loading ? '--' : `₹${kpis.totalPayroll.toLocaleString()}`}
               </h3>
             </div>
           </div>

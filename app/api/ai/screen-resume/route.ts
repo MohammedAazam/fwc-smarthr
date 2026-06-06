@@ -3,7 +3,7 @@ import { connectToDatabase } from '@/lib/mongodb';
 import Candidate from '@/models/Candidate';
 import { auth } from '@/lib/auth';
 import { getGeminiModel } from '@/lib/gemini';
-const pdfParse = require('pdf-parse');
+import { PDFParse } from 'pdf-parse';
 
 export async function POST(request: Request) {
   const session = await auth();
@@ -31,7 +31,8 @@ export async function POST(request: Request) {
     console.log('Extracting text from PDF resume...');
     let resumeText = '';
     try {
-      const pdfData = await pdfParse(buffer);
+      const parser = new PDFParse({ data: new Uint8Array(buffer) });
+      const pdfData = await parser.getText();
       resumeText = pdfData.text || '';
     } catch (parseErr: any) {
       return NextResponse.json(

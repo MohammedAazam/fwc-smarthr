@@ -175,24 +175,24 @@ export default function PayrollPage() {
       // Itemize Earnings
       let leftY = tableY - 25;
       page.drawText('Basic Salary', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.basic}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.basic}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       leftY -= 18;
       page.drawText('HRA (40%)', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.hra}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.hra}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       leftY -= 18;
       page.drawText('DA (20%)', { x: 40, y: leftY, size: 10, font });
-      page.drawText(`$${record.da}`, { x: width / 2 - 80, y: leftY, size: 10, font });
+      page.drawText(`Rs.${record.da}`, { x: width / 2 - 80, y: leftY, size: 10, font });
 
       // Itemize Deductions
       let rightY = tableY - 25;
       page.drawText('PF / Flat Deductions', { x: width / 2, y: rightY, size: 10, font });
-      page.drawText(`$${record.deductions}`, { x: width - 100, y: rightY, size: 10, font });
+      page.drawText(`Rs.${record.deductions}`, { x: width - 100, y: rightY, size: 10, font });
 
       rightY -= 18;
       page.drawText('TDS / Income Tax', { x: width / 2, y: rightY, size: 10, font });
-      page.drawText(`$${record.tds}`, { x: width - 100, y: rightY, size: 10, font });
+      page.drawText(`Rs.${record.tds}`, { x: width - 100, y: rightY, size: 10, font });
 
       // Draw separation bar
       page.drawLine({
@@ -208,10 +208,10 @@ export default function PayrollPage() {
 
       const sumY = leftY - 35;
       page.drawText('Gross Earnings:', { x: 40, y: sumY, size: 10, font: fontBold });
-      page.drawText(`$${gross}`, { x: width / 2 - 80, y: sumY, size: 10, font: fontBold });
+      page.drawText(`Rs.${gross}`, { x: width / 2 - 80, y: sumY, size: 10, font: fontBold });
 
       page.drawText('Total Deductions:', { x: width / 2, y: sumY, size: 10, font: fontBold });
-      page.drawText(`$${totalDed}`, { x: width - 100, y: sumY, size: 10, font: fontBold });
+      page.drawText(`Rs.${totalDed}`, { x: width - 100, y: sumY, size: 10, font: fontBold });
 
       // Draw Net Salary Box
       const netY = sumY - 70;
@@ -226,7 +226,7 @@ export default function PayrollPage() {
       });
 
       page.drawText('NET TAKE-HOME SALARY', { x: 60, y: netY + 26, size: 9, font: fontBold, color: rgb(0.4, 0.4, 0.4) });
-      page.drawText(`$${record.netSalary}`, { x: 60, y: netY + 8, size: 15, font: fontBold, color: rgb(0.05, 0.35, 0.15) });
+      page.drawText(`Rs.${record.netSalary}`, { x: 60, y: netY + 8, size: 15, font: fontBold, color: rgb(0.05, 0.35, 0.15) });
 
       // Footer
       page.drawText('This document is a computer-generated payslip and does not require a physical signature.', {
@@ -287,7 +287,7 @@ export default function PayrollPage() {
               <span>Trigger Payroll Run</span>
             </h3>
             <p className="text-slate-400 text-xs">
-              Calculate basic wages, HRA (40%), DA (20%), flat deductions, and TDS (10% on salaries &gt; $25,000) for all staff.
+              Calculate basic wages, HRA (40%), DA (20%), flat deductions, and TDS (10% on salaries &gt; ₹25,000) for all staff.
             </p>
 
             {genSuccess && (
@@ -404,11 +404,11 @@ export default function PayrollPage() {
                     <div className="w-[15%] font-medium">
                       {monthNames[record.month - 1]} {record.year}
                     </div>
-                    <div className="w-[15%]">${record.basic}</div>
-                    <div className="w-[10%]">${record.hra}</div>
-                    <div className="w-[10%]">${record.da}</div>
-                    <div className="w-[10%] text-rose-400">${record.tds}</div>
-                    <div className="w-[15%] font-bold text-emerald-400">${record.netSalary}</div>
+                    <div className="w-[15%]">₹{record.basic}</div>
+                    <div className="w-[10%]">₹{record.hra}</div>
+                    <div className="w-[10%]">₹{record.da}</div>
+                    <div className="w-[10%] text-rose-400">₹{record.tds}</div>
+                    <div className="w-[15%] font-bold text-emerald-400">₹{record.netSalary}</div>
                     <div className="w-[10%] flex justify-end">
                       <button
                         onClick={() => compilePayslipPDF(record)}

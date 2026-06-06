@@ -2,9 +2,7 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSession } from 'next-auth/react';
-import * as reactWindow from 'react-window';
-// @ts-ignore
-const List = reactWindow.FixedSizeList || (reactWindow as any).default?.FixedSizeList || reactWindow;
+import { List } from 'react-window';
 import {
   Search,
   Filter,
@@ -319,19 +317,34 @@ export default function EmployeesPage() {
     );
   };
 
+  // Precompute organization hierarchy map for O(1) lookups during tree rendering
+  const employeesByManager = React.useMemo(() => {
+    const map = new Map<string, any[]>();
+    const roots: any[] = [];
+    const employeeIds = new Set(allEmployees.map(e => e._id));
+
+    allEmployees.forEach((emp) => {
+      const mId = emp.managerId ? String(emp.managerId) : null;
+      const isRoot = (emp.role === 'admin' || emp.role === 'senior_manager') && 
+                     (!mId || !employeeIds.has(mId));
+
+      if (isRoot) {
+        roots.push(emp);
+      } else if (mId && emp._id !== mId) {
+        if (!map.has(mId)) {
+          map.set(mId, []);
+        }
+        map.get(mId)!.push(emp);
+      }
+    });
+
+    return { map, roots };
+  }, [allEmployees]);
+
   // Render Org Chart Tree Node Recursively
   const renderTreeNode = (managerId: string | null, depth = 0) => {
-    // Find children linked to this manager
-    const children = allEmployees.filter((emp) => {
-      if (managerId === null) {
-        // Root managers: role is admin or senior_manager, and managerId is null or missing from list
-        return (
-          (emp.role === 'admin' || emp.role === 'senior_manager') &&
-          (!emp.managerId || !allEmployees.some((m) => m._id === String(emp.managerId)))
-        );
-      }
-      return String(emp.managerId) === String(managerId) && emp._id !== String(managerId);
-    });
+    // Find children linked to this manager using our precomputed map
+    const children = managerId === null ? employeesByManager.roots : (employeesByManager.map.get(managerId) || []);
 
     // Remove duplicates if any
     const uniqueChildren = Array.from(new Set(children.map((c) => c._id))).map((id) =>
@@ -514,15 +527,14 @@ export default function EmployeesPage() {
             ) : employees.length === 0 ? (
               <div className="py-20 text-center text-slate-500 text-sm">No employees found.</div>
             ) : (
-              <List
-                height={Math.min(employees.length * 60, 540)}
-                itemCount={employees.length}
-                itemSize={60}
-                width="100%"
+              <List<any>
+                rowCount={employees.length}
+                rowHeight={60}
+                rowComponent={VirtualRow}
+                rowProps={{}}
+                style={{ height: Math.min(employees.length * 60, 540), width: '100%' }}
                 className="overflow-y-auto"
-              >
-                {VirtualRow}
-              </List>
+              />
             )}
 
             {/* Pagination footer */}

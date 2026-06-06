@@ -21,13 +21,14 @@ export async function GET() {
     // 1. Department headcount
     const headcount = await User.countDocuments({ department, role: 'employee', isActive: true });
 
-    // 2. Pending leaves in department
-    const pendingLeaves = await Leave.find({ status: 'pending' })
+    // 2. Pending leaves in department (filtered at database level)
+    const departmentUserIds = await User.find({ department, isActive: true }).distinct('_id');
+    const deptPendingLeaves = await Leave.find({
+      status: 'pending',
+      userId: { $in: departmentUserIds },
+    })
       .populate('userId', 'name email department designation')
       .lean();
-    const deptPendingLeaves = pendingLeaves.filter(
-      (l) => (l.userId as any)?.department === department
-    );
 
     // 3. Team performance: average goal completion per member
     const teamMembers = await User.find({ department, role: 'employee', isActive: true }).select('name');

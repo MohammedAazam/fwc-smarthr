@@ -44,19 +44,17 @@ export async function GET(request: Request) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
       }
 
-      // Senior managers see their department pending leaves, Admin sees all
-      const query: any = { status: 'pending' };
-
-      const pendingLeaves = await Leave.find(query)
-        .populate('userId', 'name email department designation managerId')
-        .sort({ createdAt: -1 });
-
-      // If senior manager, filter by department
-      let filtered = pendingLeaves;
+      // Senior managers see their department pending leaves, Admin sees all (filtered at DB layer)
+      let filtered;
       if (currentUser.role === 'senior_manager') {
-        filtered = pendingLeaves.filter(
-          (leave) => (leave.userId as any).department === currentUser.department
-        );
+        const departmentUserIds = await User.find({ department: currentUser.department, isActive: true }).distinct('_id');
+        filtered = await Leave.find({ status: 'pending', userId: { $in: departmentUserIds } })
+          .populate('userId', 'name email department designation managerId')
+          .sort({ createdAt: -1 });
+      } else {
+        filtered = await Leave.find({ status: 'pending' })
+          .populate('userId', 'name email department designation managerId')
+          .sort({ createdAt: -1 });
       }
 
       return NextResponse.json(filtered);

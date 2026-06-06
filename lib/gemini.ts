@@ -87,5 +87,5 @@ export function getGeminiModel() {
     return new MockGeminiModel() as any;
   }
   const ai = new GoogleGenerativeAI(apiKey);
-  return ai.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  return ai.getGenerativeModel({ model: 'gemini-2.5-flash' });
 }

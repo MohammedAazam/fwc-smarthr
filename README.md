@@ -32,7 +32,7 @@ graph TD
     end
 
     subgraph Artificial Intelligence
-        Gemini[Google Gemini API gemini-1.5-flash]
+        Gemini[Google Gemini API gemini-2.5-flash]
         HF[Hugging Face Public Inference API]
     end
 
@@ -51,7 +51,7 @@ graph TD
 2. **Database**: MongoDB Atlas Free Tier (512MB M0 Cluster).
 3. **Caching**: Upstash Redis Free Tier (10,000 requests/day) for caching admin dashboard stats (5-minute TTL).
 4. **AI Services**:
-   - **Google Gemini API** (`gemini-1.5-flash` model, 15 req/min free tier) for Chatbot intent classification, Resume screening, and Performance review drafting.
+   - **Google Gemini API** (`gemini-2.5-flash` model, 15 req/min free tier) for Chatbot intent classification, Resume screening, and Performance review drafting.
    - **Hugging Face Inference API** (using public models) for sentiment analysis aggregation on employee pulses.
 5. **Storage**: Cloudinary Free Tier (25GB) for resume PDFs and profile photo uploads.
 6. **Authentication**: NextAuth.js v5 with credentials provider. The middleware runs on the Vercel Edge Runtime and checks JWT roles in-memory, completely bypassing Mongoose to avoid Edge compatibility crashes.
